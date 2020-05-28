@@ -41,7 +41,7 @@ jobs:
     - name: install core
       run: cd /usr/local/src && sudo git clone https://github.com/UBIC-repo/core.git && sudo chmod 777 -R core && cd core && cmake CMakeLists.txt && make
     - name: zip
-      run: cd /usr/local/src && zip ubic.zip ubic ubicd 
+      run: cd /usr/local/src/core && zip ubic.zip ubic ubicd 
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
       with:
