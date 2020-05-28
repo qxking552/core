@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: apt install
-      run: apt-get update
+      run: sudo apt-get update && sudo apt-get install git cmake gcc make libleveldb-dev libpcsclite1 libpcsclite-dev libboost-all-dev gcc g++ ntp
     - name: configure
       run: ./configure
     - name: make
