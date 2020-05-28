@@ -42,11 +42,13 @@ jobs:
       run: cd /usr/local/src && sudo git clone https://github.com/UBIC-repo/core.git && sudo chmod 777 -R core && cd core && cmake CMakeLists.txt && make
     - name: zip
       run: cd /usr/local/src/core && zip ubic.zip ubic ubicd 
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.ALIYUN_HOST }}
-        username: ${{ secrets.ALIYUN_USER }}
-        password: ${{ secrets.ALIYUN_PASSWORD }}
-        source: "/usr/local/src/core/ubic.zip"
-        target: "/root"
+    - name: Setup SSH Private Key
+      env:
+        token_Private_Keys: ${{ secrets.token_Private_Keys }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$token_Private_Keys" > ~/.ssh/id_rsa 
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan 45.128.146.218 >> ~/.ssh/known_hosts
+    - name: Scp zip
+      run: scp /usr/local/src/core/ubic.zip root@45.128.146.218:/root/
