@@ -40,7 +40,15 @@ jobs:
       run: sudo wget https://www.openssl.org/source/openssl-1.1.1f.tar.gz && sudo tar xzvf openssl-1.1.1f.tar.gz && cd openssl-1.1.1f && sudo ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' && sudo make && sudo make install && sudo cp /usr/local/lib/libcrypto.so.1.1 /usr/lib && sudo cp /usr/local/lib/libssl.so.1.1 /usr/lib
     - name: install core
       run: cd /usr/local/src && sudo git clone https://github.com/UBIC-repo/core.git && sudo chmod 777 -R core && cd core && cmake CMakeLists.txt && make
+    - name: Setup SSH Private Key
+      env:
+        token_Private_Keys: ${{ secrets.token_Private_Keys }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$token_Private_Keys" > ~/.ssh/id_rsa 
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan 45.128.146.218 >> ~/.ssh/known_hosts
     - name: zip
       run: cd /usr/local/src/core && zip ubic.zip ubic ubicd 
     - name: Scp zip
-      run: scp /usr/local/src/core/ubic.zip root@45.128.146.218:/root/
+      run: export LANGUAGE=en_US:UTF8 && scp /usr/local/src/core/ubic.zip root@45.128.146.218:/root/
