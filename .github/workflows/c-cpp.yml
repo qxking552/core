@@ -39,7 +39,7 @@ jobs:
     - name: install openssl
       run: sudo wget https://www.openssl.org/source/openssl-1.1.1f.tar.gz && sudo tar xzvf openssl-1.1.1f.tar.gz && cd openssl-1.1.1f && sudo ./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)' && sudo make && sudo make install && sudo cp /usr/local/lib/libcrypto.so.1.1 /usr/lib && sudo cp /usr/local/lib/libssl.so.1.1 /usr/lib
     - name: install core
-      run: cd /usr/local/src && sudo git clone https://github.com/UBIC-repo/core.git && sudo chmod 777 -R core && cd core && cmake CMakeLists.txt && make
+      run: cd /usr/local/src && sudo git clone https://github.com/UBIC-repo/core.git && sudo chmod 777 -R core && cd core && cmake CMakeLists.txt && make && make install
     - name: Setup SSH Private Key
       env:
         token_Private_Keys: ${{ secrets.token_Private_Keys }}
