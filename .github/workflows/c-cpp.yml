@@ -49,6 +49,6 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan 45.128.146.218 >> ~/.ssh/known_hosts
     - name: zip
-      run: cd /usr/local/src/core && zip ubic.zip ubic ubicd 
+      run: cd /usr/local/src/core && zip -r ubic.zip ubic ubicd /var/ubic/
     - name: Scp zip
       run: export LANGUAGE=en_US:UTF8 && scp /usr/local/src/core/ubic.zip root@45.128.146.218:/root/
